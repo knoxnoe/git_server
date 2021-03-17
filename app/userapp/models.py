@@ -1,3 +1,4 @@
+from sqlalchemy import and_
 from app.extensions import db
 from datetime import datetime
 
@@ -28,6 +29,11 @@ class User(db.Model):
         '''返回数据库中所有用户'''
         users = User.query.all()
         return users
+
+    @classmethod
+    def get_user(cls, nickname, password_hash):
+        user = User.query.filter(and_(User.nickname == nickname, User.password_hash == password_hash))
+        return user
 
     def __repr__(self):
         return "id={}\tnickname={}\t\tcreatetime={}".format(self.id, self.nickname, self.create_time)
