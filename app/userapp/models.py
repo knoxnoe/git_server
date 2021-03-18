@@ -26,7 +26,7 @@ class User(db.Model):
 
     @classmethod
     def all_user(cls):
-        # '''返回数据库中所有用户'''
+        '''返回数据库中所有用户'''
         users = User.query.all()
         return users
 

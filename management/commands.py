@@ -14,5 +14,6 @@ class UserList(Command):
     "显示数据库中所有用户"
 
     def run(self):
-        User.all_user()
+        for user in User.all_user():
+            print(user)
         

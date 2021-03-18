@@ -55,8 +55,6 @@ def User_reg(nickname, password_hash):
     result = User.get_nickname(nickname)
     res = class2data(result, ["nickname"])
     if not res:
-        nickname = nickname
-        password_hash = password_hash
         result = User.reg(nickname, password_hash)
         return result
     
