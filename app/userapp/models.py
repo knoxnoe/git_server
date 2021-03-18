@@ -19,14 +19,14 @@ class User(db.Model):
     
     @classmethod
     def make_user(cls, nickname):
-        '''插入一个用户至数据库'''
+        # '''插入一个用户至数据库'''
         user = User(nickname=nickname)
         db.session.add(user)
         db.session.commit()
 
     @classmethod
     def all_user(cls):
-        '''返回数据库中所有用户'''
+        # '''返回数据库中所有用户'''
         users = User.query.all()
         return users
 
@@ -34,6 +34,19 @@ class User(db.Model):
     def get_user(cls, nickname, password_hash):
         user = User.query.filter(and_(User.nickname == nickname, User.password_hash == password_hash))
         return user
+
+    @classmethod
+    def reg(cls, nickname, password_hash):
+        user = User(nickname=nickname, password_hash=password_hash)
+        db.session.add(user)
+        db.session.commit()
+        return "注册成功"
+
+    @classmethod
+    def get_nickname(cls, nickname):
+        user = User.query.filter(User.nickname == nickname)
+        return user
+        
 
     def __repr__(self):
         return "id={}\tnickname={}\t\tcreatetime={}".format(self.id, self.nickname, self.create_time)

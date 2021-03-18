@@ -9,12 +9,13 @@ from app.utils import class2data
 SECRET_KEY = "vhadgvkasbvksdkvbkjsdbvj"
 
 auth = HTTPBasicAuth()
-
+# 查询用户模块
 def list_user():
     data = User.all_user()
     result = class2data(data, User.__fields__)
     return result
 
+# 用户登录模块
 # 1. 生成token，有效时间为600min
 def generate_auth_token(user_id, expiration=36000):
     s = Serializer(SECRET_KEY, expires_in=expiration)
@@ -46,3 +47,17 @@ def verify_password(nickname, password_hash):
             return False
     g.user_id = user_id
     return True
+
+
+# 用户注册模块
+def User_reg(nickname, password_hash):
+    #校验名字是否重复
+    result = User.get_nickname(nickname)
+    res = class2data(result, ["nickname"])
+    if not res:
+        nickname = nickname
+        password_hash = password_hash
+        result = User.reg(nickname, password_hash)
+        return result
+    
+    return "用户名重复，注册失败"
