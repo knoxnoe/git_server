@@ -1,9 +1,5 @@
 from flask_script import Command, Manager, Option
-<<<<<<< HEAD
 from app import User, Repository
-=======
-from app import User
->>>>>>> 345c9be167f97340afaed88f92fe76266d24eb08
 
 class UserFactory(Command):
     "插入一个用户至数据库"
@@ -20,8 +16,7 @@ class UserList(Command):
     def run(self):
         for user in User.all_user():
             print(user)
-        
-<<<<<<< HEAD
+
 class RepositoryFactory(Command):
     "插入一个倉庫至数据库"
     option_list = (
@@ -38,5 +33,3 @@ class RepositoryList(Command):
     def run(self):
         for repo in Repository.all_repo():
             print(repo)
-=======
->>>>>>> 345c9be167f97340afaed88f92fe76266d24eb08

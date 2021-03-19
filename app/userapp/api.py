@@ -52,26 +52,19 @@ def verify_password(nickname, password_hash):
 # 用户注册模块
 def User_reg(nickname, password_hash):
     #校验名字是否重复
-<<<<<<< HEAD
     ret = {
         "status": 0,
-	"msg": "",
-	"data": {}
+        "msg": "",
+        "data": {}
     }
-=======
->>>>>>> 345c9be167f97340afaed88f92fe76266d24eb08
     result = User.get_nickname(nickname)
     res = class2data(result, ["nickname"])
     if not res:
         result = User.reg(nickname, password_hash)
-<<<<<<< HEAD
     else:
         ret["status"] = -1	
         result = "用户名重复，注册失败" 
-    ret["msg"] = result    
-    return ret 
-=======
-        return result
-    
-    return "用户名重复，注册失败"
->>>>>>> 345c9be167f97340afaed88f92fe76266d24eb08
+        ret["msg"] = result
+        return ret
+
+    return result
