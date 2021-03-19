@@ -112,3 +112,4 @@ dmypy.json
 ## vim
 *.swp
 *.swo
+*.swn
