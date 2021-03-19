@@ -1,5 +1,7 @@
-#class to dict
-def Class_To_Data(data_list,fields,type=0):
+import datetime
+
+def class2data(data_list,fields,type=0):
+    '''class to dict'''
     if not type:
         user_list = []
         for u in data_list:
