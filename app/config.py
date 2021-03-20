@@ -5,7 +5,8 @@ class Config:
     JSON_AS_ASCII = False
 
 class DevelopmentConfig(Config):
-    pass    
+    SQLALCHEMY_DATABASE_URI = "mysql://root:root@127.0.0.1/demo?charset=utf8mb4"
+    DEBUG = True    
 
 class TestConfig(Config):
     DEBUG = True

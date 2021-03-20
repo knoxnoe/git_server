@@ -6,6 +6,7 @@ from itsdangerous import BadSignature, SignatureExpired
 from app.userapp.models import User
 from app.utils import class2data
 
+g_b = ""
 SECRET_KEY = "vhadgvkasbvksdkvbkjsdbvj"
 
 auth = HTTPBasicAuth()
@@ -38,24 +39,45 @@ def verify_auth_token(token):
 @auth.verify_password
 def verify_password(nickname, password_hash):
     # 先验证token
+    # print(">>> in verify_password {} {}".format(nickname, password_hash))
     user_id = verify_auth_token(nickname)
+    # print(user_id)
     # 如果token不存在，验证用户名和密码是否匹配
+    tem = user_id
     if not user_id:
         user = User.get_user(nickname, password_hash)
+        # print(">>> in vp if {} ".format(user))
         user_id = class2data(user, ["nickname"])
+        tem = user_id
         if not user_id:
             return False
+    else:
+        tem = tem['user_id']
+    for k in tem[0]:
+        te = tem[0][k]
+    g.te = te
     g.user_id = user_id
+    print(g.user_id)
     return True
 
+#token验证失败
+@auth.error_handler
+def error_handler():
+    ret = {
+        "status": 0,
+        "msg":"",
+    }
+    ret["status"] = -1	
+    ret["msg"] = "用户或者密码错误，失败，请重新登录"
+    return ret
 
 # 用户注册模块
 def User_reg(nickname, password_hash):
     #校验名字是否重复
     ret = {
         "status": 0,
-	"msg": "",
-	"data": {}
+	    "msg": "",
+	    "data": {}
     }
     result = User.get_nickname(nickname)
     res = class2data(result, ["nickname"])
@@ -66,3 +88,6 @@ def User_reg(nickname, password_hash):
         result = "用户名重复，注册失败" 
     ret["msg"] = result    
     return ret 
+
+
+
