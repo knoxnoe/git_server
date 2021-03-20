@@ -27,10 +27,18 @@ def create_manager(app):
     manager.add_command('db', MigrateCommand)
     manager.add_command('make_user', UserFactory())
     manager.add_command('list_user', UserList())
+<<<<<<< HEAD
     manager.add_command('make_repo', RepositoryFactory())
     manager.add_command('list_repo', RepositoryList())
+=======
+
+>>>>>>> 9bc4c4b2c75483adc323708d8eb0545353e0c2a3
     return manager
 
 def config_blueprint(app):
     for blueprint, url_prefix in DEFAULT_BLUEPRINT:
+<<<<<<< HEAD
         app.register_blueprint(blueprint, url_prefix=url_prefix)
+=======
+        app.register_blueprint(blueprint, url_prefix=url_prefix)
+>>>>>>> 9bc4c4b2c75483adc323708d8eb0545353e0c2a3

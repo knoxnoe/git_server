@@ -90,4 +90,3 @@ def User_reg(nickname, password_hash):
     return ret 
 
 
-

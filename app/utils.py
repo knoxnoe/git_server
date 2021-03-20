@@ -23,3 +23,4 @@ def class2data(data_list,fields,type=0):
                 user_list[f] = getattr(data_list, f)
 
     return user_list
+

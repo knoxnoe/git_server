@@ -12,6 +12,7 @@ class TestConfig(Config):
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = "mysql://root:kn1Csadc6)@127.0.0.1/hellogit?charset=utf8mb4"
 
+
 class ProductionConfig(Config):
     pass
 

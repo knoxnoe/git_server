@@ -19,7 +19,7 @@ class User(db.Model):
     
     @classmethod
     def make_user(cls, nickname):
-        # '''插入一个用户至数据库'''
+        '''插入一个用户至数据库'''
         user = User(nickname=nickname)
         db.session.add(user)
         db.session.commit()
@@ -48,5 +48,4 @@ class User(db.Model):
         return user
         
 
-    def __repr__(self):
-        return "id={}\tnickname={}\t\tcreatetime={}".format(self.id, self.nickname, self.create_time)
+
