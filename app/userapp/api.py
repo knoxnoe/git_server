@@ -76,13 +76,8 @@ def User_reg(nickname, password_hash):
     #校验名字是否重复
     ret = {
         "status": 0,
-<<<<<<< HEAD
 	    "msg": "",
 	    "data": {}
-=======
-        "msg": "",
-        "data": {}
->>>>>>> 4f69cf119a2b532ccffed470f496641594445409
     }
     result = User.get_nickname(nickname)
     res = class2data(result, ["nickname"])
@@ -90,15 +85,8 @@ def User_reg(nickname, password_hash):
         result = User.reg(nickname, password_hash)
     else:
         ret["status"] = -1	
-        result = "用户名重复，注册失败" 
-<<<<<<< HEAD
-    ret["msg"] = result    
-    return ret 
-
-
-=======
+        result = "用户名重复，注册失败"
         ret["msg"] = result
         return ret
-
     return result
->>>>>>> 4f69cf119a2b532ccffed470f496641594445409
+

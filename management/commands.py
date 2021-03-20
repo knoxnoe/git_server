@@ -1,9 +1,5 @@
 from flask_script import Command, Manager, Option
-<<<<<<< HEAD
 from app import User, Repository
-=======
-from app import User
->>>>>>> 9bc4c4b2c75483adc323708d8eb0545353e0c2a3
 
 class UserFactory(Command):
     "插入一个用户至数据库"
@@ -18,7 +14,6 @@ class UserList(Command):
     "显示数据库中所有用户"
 
     def run(self):
-<<<<<<< HEAD
         for user in User.all_user():
             print(user)
 
@@ -34,11 +29,7 @@ class RepositoryFactory(Command):
 
 class RepositoryList(Command):
     "显示所有仓库"
-    
     def run(self):
         for repo in Repository.all_repo():
             print(repo)
-=======
-        User.show_user()
-        
->>>>>>> 9bc4c4b2c75483adc323708d8eb0545353e0c2a3
+
