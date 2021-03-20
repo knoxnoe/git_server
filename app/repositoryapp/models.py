@@ -1,6 +1,7 @@
 from sqlalchemy import and_
 from app.extensions import db
 from datetime import datetime
+from sqlalchemy import and_
 
 class Repository(db.Model): 
     __tablename__ = "repository"
@@ -25,12 +26,19 @@ class Repository(db.Model):
         repo = Repository(reponame=reponame, owner=owner, description=description) 
         db.session.add(repo)
         db.session.commit()
+        return "插入仓库成功"
 
     @classmethod
     def all_repo(cls):
         '''返回数据库中所有用户'''
         repos = Repository.query.all()
         return repos
+
+    # 查询重复
+    @classmethod
+    def ver_repeat(cla, reponame, owner):
+        repon = Repository.query.filter(and_(Repository.reponame == reponame, Repository.owner == owner))
+        return repon
     
     def __repr__(self):
         return "id={}\treponame={}\t\towner={}\tcreatetime={}".format(self.id, self.reponame, self.owner, self.create_time)

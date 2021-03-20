@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 Flask-HTTPAuth==4.2.0
+=======
+>>>>>>> 9bc4c4b2c75483adc323708d8eb0545353e0c2a3
 alembic==1.5.7
 click==7.1.2
 Flask==1.1.2

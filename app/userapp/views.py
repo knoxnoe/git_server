@@ -28,3 +28,4 @@ def reg():
     result = User_reg(nickname, password_hash)
     return jsonify(result)
 
+
