@@ -21,7 +21,7 @@ class UserList(Command):
 <<<<<<< HEAD
         for user in User.all_user():
             print(user)
-        
+
 class RepositoryFactory(Command):
     "插入一个倉庫至数据库"
     option_list = (
