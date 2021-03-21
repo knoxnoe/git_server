@@ -4,7 +4,7 @@ from flask import g
 from itsdangerous import BadSignature, SignatureExpired
 
 from app.userapp.models import User
-from app.utils import class2data
+from app.utils import class2data, create_response
 
 g_b = ""
 SECRET_KEY = "vhadgvkasbvksdkvbkjsdbvj"
@@ -14,7 +14,7 @@ auth = HTTPBasicAuth()
 def list_user():
     data = User.all_user()
     result = class2data(data, User.__fields__)
-    return result
+    return create_response(0, "success", result)
 
 # 用户登录模块
 # 1. 生成token，有效时间为600min
@@ -63,30 +63,24 @@ def verify_password(nickname, password_hash):
 #token验证失败
 @auth.error_handler
 def error_handler():
-    ret = {
-        "status": 0,
-        "msg":"",
-    }
-    ret["status"] = -1	
-    ret["msg"] = "用户或者密码错误，失败，请重新登录"
-    return ret
+    status = -1	
+    msg = "用户或者密码错误，失败，请重新登录"
+    return create_response(status, msg)
 
 # 用户注册模块
 def User_reg(nickname, password_hash):
     #校验名字是否重复
-    ret = {
-        "status": 0,
-	    "msg": "",
-	    "data": {}
-    }
+    status = 0
     result = User.get_nickname(nickname)
     res = class2data(result, ["nickname"])
     if not res:
         result = User.reg(nickname, password_hash)
     else:
-        ret["status"] = -1	
+        status = -1
         result = "用户名重复，注册失败"
-        ret["msg"] = result
-        return ret
-    return result
+    return create_response(status, result)
 
+# 用户登录模块
+def user_login():
+    token = generate_auth_token(g.user_id)
+    return create_response(0, "登陆成功", token.decode('ascii'))
