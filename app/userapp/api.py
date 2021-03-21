@@ -14,7 +14,7 @@ auth = HTTPBasicAuth()
 def list_user():
     data = User.all_user()
     result = class2data(data, User.__fields__)
-    return create_response(0, "success", result)
+    return create_response(0, "success", user_list=result)
 
 # 用户登录模块
 # 1. 生成token，有效时间为600min
@@ -83,4 +83,4 @@ def User_reg(nickname, password_hash):
 # 用户登录模块
 def user_login():
     token = generate_auth_token(g.user_id)
-    return create_response(0, "登陆成功", token.decode('ascii'))
+    return create_response(0, "登陆成功", token=token.decode('ascii'))

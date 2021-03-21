@@ -26,7 +26,8 @@ def class2data(data_list,fields,type=0):
 
     return user_list
 
-def create_response(status_code=0, msg="", data={}):
+def create_response(status_code=0, msg="", **kargs):
     '''返回一个Response对象'''
-    response = {"status":status_code, "msg":msg, "data":data}
+    response = {"status":status_code, "msg":msg, "data":kargs}
     return jsonify(response)
+
