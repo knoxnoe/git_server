@@ -6,17 +6,15 @@ user = Blueprint('user', __name__)
 @user.route('/list')
 @auth.login_required
 def user_list():
-
     list = list_user()
-    return jsonify(list)
+    return list
 
 # 登录接口 param: nikename, password_hash
 @user.route('/login', methods=['POST'])
 @auth.login_required
 def login():
-    token = generate_auth_token(g.user_id)
-    return jsonify({'token': token.decode('ascii')})
-
+    result = user_login()
+    return result
 
 # 注册接口 param: nikename, password_hash
 @user.route('/register', methods=['POST'])
@@ -26,6 +24,6 @@ def reg():
     password_hash = request.form.get('password_hash')
     # 使用用户的注册功能
     result = User_reg(nickname, password_hash)
-    return jsonify(result)
+    return result
 
 

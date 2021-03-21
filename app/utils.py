@@ -1,4 +1,6 @@
 import datetime
+from flask import jsonify
+
 
 def class2data(data_list,fields,type=0):
     '''class to dict'''
@@ -24,3 +26,7 @@ def class2data(data_list,fields,type=0):
 
     return user_list
 
+def create_response(status_code=0, msg="", data={}):
+    '''返回一个Response对象'''
+    response = {"status":status_code, "msg":msg, "data":data}
+    return jsonify(response)
