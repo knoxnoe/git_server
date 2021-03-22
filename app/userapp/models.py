@@ -33,6 +33,7 @@ class User(db.Model):
     @classmethod
     def get_user(cls, nickname, password_hash):
         user = User.query.filter(and_(User.nickname == nickname, User.password_hash == password_hash))
+        # print(user)
         return user
 
     @classmethod
