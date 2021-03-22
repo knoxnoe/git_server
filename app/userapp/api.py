@@ -13,14 +13,11 @@ auth = HTTPBasicAuth()
 # 查询用户模块
 def list_user():
     data = User.all_user()
-    print("data", data)
     result = class2data(data, User.__fields__)
     return create_response(0, "success", users=result)
 
 def verify_password(nickname, password_hash):
     use = User.get_user(nickname, password_hash).first()
-    print(use.nickname)
-    # res = class2data(use, ["nickname"])
     if not use:
         return False
     else:

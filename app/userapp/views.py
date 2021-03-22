@@ -10,7 +10,6 @@ def user_list():
     list = list_user()
     return list
 
-
 # 注册接口 param: nikename, password_hash
 @user.route('/register', methods=['POST'])
 def reg():

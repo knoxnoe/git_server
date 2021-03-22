@@ -1,6 +1,11 @@
 import datetime
+from datetime import timedelta
 from flask import jsonify
+import jwt
+from functools import wraps
+from flask import g
 
+key = "zkpfw*%$qjrfono@sdko34@%"
 
 def class2data(data_list,fields,type=0):
     '''class to dict'''
@@ -30,15 +35,6 @@ def create_response(status_code=0, msg="", **kwargs):
     '''返回一个Response对象'''
     response = {"status":status_code, "msg":msg, "data":kwargs}
     return jsonify(response)
-
-
-from datetime import timedelta
-#python-jwt
-import jwt
-from flask import Blueprint, request, jsonify
-
-key = "zkpfw*%$qjrfono@sdko34@%"
-
 
 def generate_access_token(user_name: str = "", algor: str = 'HS256', exp: float = 2):
     """
@@ -126,8 +122,6 @@ def identify(auth_header: str):
         return False
 
 # 登录保护函数
-from functools import wraps
-from flask import g
 
 def login_required(f):
     """
