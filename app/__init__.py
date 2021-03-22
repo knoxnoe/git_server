@@ -7,7 +7,7 @@ from app.userapp.models import User
 from app.repositoryapp.models import Repository
 from app.extensions import db, migrate
 from app.views import DEFAULT_BLUEPRINT
-from management.commands import UserFactory, UserList, RepositoryFactory, RepositoryList
+from management.commands import UserFactory, UserList, RepositoryFactory, RepositoryList, RepositoryFinder
 
 
 def create_app(config_name):
@@ -30,6 +30,7 @@ def create_manager(app):
     manager.add_command('list_user', UserList())
     manager.add_command('make_repo', RepositoryFactory())
     manager.add_command('list_repo', RepositoryList())
+    manager.add_command('find_repo', RepositoryFinder())
 
     return manager
 

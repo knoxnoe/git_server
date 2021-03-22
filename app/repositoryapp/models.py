@@ -19,10 +19,12 @@ class Repository(db.Model):
     create_time = db.Column(db.DateTime, default=datetime.now())
     # 创建者
     owner = db.Column(db.String(128), db.ForeignKey("user.nickname"))
+    # 反向引用
+    owner_ref = db.relationship("User", backref="repositories")
 
     @classmethod
     def create_repo(cls, reponame, owner, description=None):
-        # '''插入一个用户至数据库'''
+        '''插入一个用户至数据库'''
         repo = Repository(reponame=reponame, owner=owner, description=description) 
         db.session.add(repo)
         db.session.commit()
@@ -30,7 +32,7 @@ class Repository(db.Model):
 
     @classmethod
     def all_repo(cls):
-        '''返回数据库中所有用户'''
+        '''返回数据库中所有仓库'''
         repos = Repository.query.all()
         return repos
 

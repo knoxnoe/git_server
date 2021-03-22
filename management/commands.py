@@ -33,3 +33,11 @@ class RepositoryList(Command):
         for repo in Repository.all_repo():
             print(repo)
 
+class RepositoryFinder(Command):
+    "给定用户的nickname 查询他所有创建的仓库"
+    option_list = (Option('--owner', '-o', dest='owner'),)
+
+    def run(self, owner):
+        user = User.query.filter_by(nickname=owner).first()
+        for repo in user.repositories:
+            print(repo)
