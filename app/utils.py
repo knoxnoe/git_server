@@ -1,6 +1,6 @@
 import datetime
 from datetime import timedelta
-from flask import jsonify
+from flask import jsonify, request
 import jwt
 from functools import wraps
 from flask import g
@@ -16,6 +16,8 @@ def class2data(data_list,fields,type=0):
             for f in fields:
                 if f in ['create_time','login_time']:
                     temp[f] = datetime.datetime.strftime(getattr(u,f), "%Y-%m-%d %H:%M:%S ")
+                elif f == 'repositories':
+                    continue
                 else:
                     temp[f] = getattr(u,f)
             user_list.append(temp)

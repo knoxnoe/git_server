@@ -14,6 +14,7 @@ auth = HTTPBasicAuth()
 def list_user():
     data = User.all_user()
     result = class2data(data, User.__fields__)
+    print(result)
     return create_response(0, "success", users=result)
 
 def verify_password(nickname, password_hash):
