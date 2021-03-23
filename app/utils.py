@@ -134,7 +134,7 @@ def login_required(f):
 
     @wraps(f)
     def wrapper(*args, **kwargs):
-        token = request.headers.get("Authorization", default=None)
+        token = request.headers.get("abc", default=None)
         # print(token)
         if not token:
             return "请登陆,无token"

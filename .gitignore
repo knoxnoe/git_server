@@ -2,6 +2,7 @@
 ### Python template
 .idea
 .DS_Store
+migrations/
 # Byte-compiled / optimized / DLL files
 led / optimized / DLL files
 __pycache__/
