@@ -1,3 +1,4 @@
+import os
 from app.utils import class2data, create_response
 from app.repositoryapp.models import Repository
 from git import Repo
@@ -15,6 +16,8 @@ def create_repo(nickname, reponame, desc):
     result = Repository.ver_repeat(reponame, nickname)
     res = class2data(result, ["reponame"])
     if not res:
+        repoRepo.init(os.path.join(GIT_ROOT, nickname, reponame), bare=True)
+       
         result = Repository.create_repo(reponame, nickname, desc)
     else:
         ret["status"] = -1	
