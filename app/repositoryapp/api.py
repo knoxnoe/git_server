@@ -37,7 +37,7 @@ def clone_bare(bare_path, cloned_path):
     else:
         repo.clone(cloned_path)
 
-def get_data_from_directory(nickname, reponame, path_from_url):
+def get_file_from_directory(nickname, reponame, path_from_url):
     bare_path = os.path.join(GIT_ROOT, nickname, reponame)
     cloned_path = os.path.join(bare_path, reponame)
     clone_bare(bare_path, cloned_path) 
@@ -53,3 +53,8 @@ def get_data_from_directory(nickname, reponame, path_from_url):
     else:
         return create_response(-1, "No such file in your repository")
    
+def get_branch_from_directory(nickname, reponame):
+    bare_path = os.path.join(GIT_ROOT, nickname, reponame)
+    repo = Repo(bare_path)
+    branches = [str(branch) for branch in repo.heads]
+    return create_response(0, "success", branches=branches)

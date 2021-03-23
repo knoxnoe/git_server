@@ -17,8 +17,10 @@ def create():
 
 @repository.route('/<nickname>/<reponame>/')
 @repository.route('/<nickname>/<reponame>/<path:file_path>')
-def show(nickname, reponame, file_path=""):
-    response = get_data_from_directory(nickname, reponame, file_path)
+@repository.route('/<nickname>/<reponame>/dev/<branch>/')
+@repository.route('/<nickname>/<reponame>/dev/<branch>/<path:file_path>')
+def show(nickname, reponame, branch="", file_path=""):
+    response = get_file_from_directory(nickname, reponame, file_path)
     return response
 
 @repository.route('/<nickname>')
@@ -28,3 +30,9 @@ def get_repo(nickname):
     result = class2data(repositories, Repository.__fields__) 
     response = create_response(0, "success", user_repositories=result)
     return response
+
+@repository.route('/branch/<nickname>/<reponame>')
+def get_branch(nickname, reponame):
+    response = get_branch_from_directory(nickname, reponame) 
+    return response 
+
