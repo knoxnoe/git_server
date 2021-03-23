@@ -7,7 +7,7 @@ class User(db.Model):
     __table_args__ = {
         'mysql_charset': 'utf8mb4'
     }
-    __fields__ = ["id", "nickname", "password_hash", "create_time", "repositories"]
+    __fields__ = ["id", "nickname", "password_hash", "create_time"]
     # 主键 自增
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     # 用户名 唯一 加索引 据说unique会自动被加索引

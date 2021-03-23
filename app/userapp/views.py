@@ -63,3 +63,10 @@ def test_refresh_token():
     access_token = generate_access_token(user_name=payload["user_name"])
     data = {"access_token": access_token, "refresh_token": refresh_token}
     return jsonify(data)
+
+@user.route('/<nickname>')
+def user_info(nickname):
+    user = User.get_nickname(nickname).first()
+    data = class2data(user, User.__fields__, type=1)
+    data.pop("password_hash")
+    return create_response(0, "success", user_info=data)
