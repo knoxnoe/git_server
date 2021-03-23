@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify, redirect
 from app.repositoryapp.api import *
-from app.utils import create_response
+from app.utils import create_response, class2data
+from app import User, Repository
 
 repository = Blueprint('repository', __name__)
 
@@ -18,4 +19,12 @@ def create():
 @repository.route('/<nickname>/<reponame>/<path:file_path>')
 def show(nickname, reponame, file_path=""):
     response = get_data_from_directory(nickname, reponame, file_path)
+    return response
+
+@repository.route('/<nickname>')
+def get_repo(nickname):
+    user = User.get_nickname(nickname).first()
+    repositories = user.repositories
+    result = class2data(repositories, Repository.__fields__) 
+    response = create_response(0, "success", user_repositories=result)
     return response
