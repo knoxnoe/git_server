@@ -37,12 +37,16 @@ def clone_bare(bare_path, cloned_path):
     else:
         repo.clone(cloned_path)
 
-def get_file_from_directory(nickname, reponame, path_from_url):
+def get_file_from_directory(nickname, reponame, path_from_url, branch):
     bare_path = os.path.join(GIT_ROOT, nickname, reponame)
     cloned_path = os.path.join(bare_path, reponame)
     clone_bare(bare_path, cloned_path) 
     file_path = os.path.join(cloned_path, path_from_url)
-
+    
+    cloned_repo = Repo(cloned_path)
+    git = cloned_repo.git
+    git.checkout(branch)
+   
     if os.path.isdir(file_path):
         files = [entry.name for entry in os.scandir(file_path) if not entry.is_dir()]
         dirs = [entry.name for entry in os.scandir(file_path) if entry.is_dir() and entry.name != '.git']

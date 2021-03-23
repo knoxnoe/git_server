@@ -17,10 +17,10 @@ def create():
 
 @repository.route('/<nickname>/<reponame>/')
 @repository.route('/<nickname>/<reponame>/<path:file_path>')
-@repository.route('/<nickname>/<reponame>/dev/<branch>/')
-@repository.route('/<nickname>/<reponame>/dev/<branch>/<path:file_path>')
-def show(nickname, reponame, branch="", file_path=""):
-    response = get_file_from_directory(nickname, reponame, file_path)
+@repository.route('/<nickname>/<reponame>/tree/<branch>/')
+@repository.route('/<nickname>/<reponame>/tree/<branch>/<path:file_path>')
+def show(nickname, reponame, branch="master", file_path=""):
+    response = get_file_from_directory(nickname, reponame, file_path, branch)
     return response
 
 @repository.route('/<nickname>')
