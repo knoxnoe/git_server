@@ -2,6 +2,7 @@ from flask import Blueprint, request, jsonify, redirect
 from app.repositoryapp.api import *
 from app.utils import create_response, class2data, login_required
 from app import User, Repository
+from flask import g
 
 repository = Blueprint('repository', __name__)
 
@@ -36,10 +37,17 @@ def get_branch(nickname, reponame):
     response = get_branch_from_directory(nickname, reponame) 
     return response 
 
-@repository.route('/fork')
+@repository.route('/fork', methods=['POST'])
 @login_required
 def fork():
-    pass
+    owner = g.user_name
+    # print(owner)
+    # pass
+    anoname = request.form.get('nickname')
+    anorepo = request.form.get('reponame')
+    response = fork_repo(owner, anoname, anorepo)
+    return response
+
 
 @repository.route('/upload', methods=["GET", "POST"])
 def upload():

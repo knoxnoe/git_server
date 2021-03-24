@@ -41,6 +41,7 @@ class Repository(db.Model):
     def ver_repeat(cla, reponame, owner):
         repon = Repository.query.filter(and_(Repository.reponame == reponame, Repository.owner == owner))
         return repon
+
     
     def __repr__(self):
         return "id={}\treponame={}\t\towner={}\tcreatetime={}".format(self.id, self.reponame, self.owner, self.create_time)

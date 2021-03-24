@@ -94,3 +94,33 @@ def download_repo(nickname, reponame):
         repo.archive(fp)
     return send_file(tar_path, as_attachment=True)
 
+def fork_repo(owner, anoname, anorepo):
+    ret = {
+        "status": 0,
+	    "msg": "",
+	    "data": {}
+    }
+
+    result = Repository.ver_repeat(anorepo, anoname)
+    des = class2data(result, ["description"])
+    # print(des)
+    if not des:
+        ret['msg'] = "无此复刻仓库"
+        ret['status'] = -1
+        return ret
+
+    
+    des = des[0]['description']
+
+    result = Repository.ver_repeat(anorepo, owner)
+    res = class2data(result, ["reponame"])
+
+    if not res:
+        result = Repository.create_repo(anorepo, owner, des)
+    else:
+        ret["status"] = -1	
+        result = "当前用户仓库名重复，创建失败" 
+    ret["msg"] = result    
+    return ret
+
+    
