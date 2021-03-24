@@ -41,10 +41,9 @@ def get_branch(nickname, reponame):
 @login_required
 def fork():
     owner = g.user_name
-    # print(owner)
-    # pass
     anoname = request.form.get('nickname')
     anorepo = request.form.get('reponame')
+    print("owner", owner, "anoname", anoname, "anrepo", anorepo)
     response = fork_repo(owner, anoname, anorepo)
     return response
 

@@ -3,7 +3,7 @@ import shutil
 from app.utils import class2data, create_response
 from app.repositoryapp.models import Repository
 from git import Repo
-from flask import send_file
+from flask import send_file, jsonify
 
 
 GIT_ROOT = '/gitrepo'
@@ -36,12 +36,16 @@ def update_cloned_repo(nickname, reponame):
 
 def clone_bare(bare_path, cloned_path):
     repo = Repo(bare_path)
+    print("bare_path", bare_path)
+    print("cloned_path", cloned_path)
     if os.path.isdir(cloned_path):      
         cloned_mtime = os.stat(cloned_path).st_mtime
         objects_mtime = os.stat(os.path.join(bare_path, "objects")).st_mtime
-        if objects_mtime > cloned_mtime:
-            shutil.rmtree(cloned_path) 
-            repo.clone(cloned_path)
+        #if objects_mtime > cloned_mtime:
+        #    shutil.rmtree(cloned_path) 
+        #    repo.clone(cloned_path)
+        shutil.rmtree(cloned_path)
+        repo.clone(cloned_path)
     else:
         repo.clone(cloned_path)
 
@@ -96,9 +100,9 @@ def download_repo(nickname, reponame):
 
 def fork_gitrepo(forker, owner ,reponame):
     forker_path = os.path.join(GIT_ROOT, forker, reponame)
-    owner_path = os.path.join(GIT_ROOT, owner, reponame)
+    owner_path = os.path.join(GIT_ROOT, owner)
+    print("forker_path", forker_path, "owner_path", owner_path)
     shutil.copytree(owner_path, forker_path)
-    return create_response(0, "success")
 
 def fork_gitrepo1(forker, owner, reponame):
     forker_path = os.path.join(GIT_ROOT, forker, reponame)
@@ -106,6 +110,11 @@ def fork_gitrepo1(forker, owner, reponame):
     owner_repo = Repo(owner_path)
     
 def fork_repo(owner, anoname, anorepo):
+    '''
+    owner: fork发起人
+    anoname: 被fork的仓库拥有人
+    anrepo: 仓库名
+    '''
     ret = {
         "status": 0,
 	    "msg": "",
@@ -128,10 +137,9 @@ def fork_repo(owner, anoname, anorepo):
 
     if not res:
         result = Repository.create_repo(anorepo, owner, des)
+        fork_gitrepo(owner, anoname, anorepo)
     else:
         ret["status"] = -1	
         result = "当前用户仓库名重复，创建失败" 
     ret["msg"] = result    
-    return ret
-
-    
+    return jsonify(aet)
