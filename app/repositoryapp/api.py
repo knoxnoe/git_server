@@ -3,6 +3,8 @@ import shutil
 from app.utils import class2data, create_response
 from app.repositoryapp.models import Repository
 from git import Repo
+from flask import send_file
+
 
 GIT_ROOT = '/gitrepo'
 
@@ -26,6 +28,12 @@ def create_repo(nickname, reponame, desc):
     ret["msg"] = result    
     return ret 
 
+def update_cloned_repo(nickname, reponame):
+    bare_path = os.path.join(GIT_ROOT, nickname, reponame)
+    cloned_path = os.path.join(bare_path, reponame)    
+    clone_bare(bare_path, cloned_path)
+    return cloned_path
+
 def clone_bare(bare_path, cloned_path):
     repo = Repo(bare_path)
     if os.path.isdir(cloned_path):      
@@ -44,8 +52,9 @@ def get_file_from_directory(nickname, reponame, path_from_url, branch):
     file_path = os.path.join(cloned_path, path_from_url)
     
     cloned_repo = Repo(cloned_path)
-    git = cloned_repo.git
-    git.checkout(branch)
+    if cloned_repo.heads:
+        git = cloned_repo.git
+        git.checkout(branch)
    
     if os.path.isdir(file_path):
         files = [entry.name for entry in os.scandir(file_path) if not entry.is_dir()]
@@ -62,3 +71,26 @@ def get_branch_from_directory(nickname, reponame):
     repo = Repo(bare_path)
     branches = [str(branch) for branch in repo.heads]
     return create_response(0, "success", branches=branches)
+
+def upload_file(nickname, reponame, innerpath, filename, bin_file, commit_msg, path_from_url=""):
+    cloned_path = update_cloned_repo(nickname, reponame) 
+    file_path = os.path.join(cloned_path, innerpath, filename)
+    print("saved file_path: ", file_path)
+    bin_file.save(file_path)
+    cloned_repo = Repo(cloned_path)
+    git = cloned_repo.git
+    git.add('-A')
+    git.commit('-am', commit_msg)  
+    git.push()
+    return create_response(0, "success")  
+
+def download_repo(nickname, reponame):
+    cloned_path = update_cloned_repo(nickname, reponame)
+    print("download nickname", nickname, "reponame:", reponame)
+    repo = Repo(cloned_path)
+    tar_path = os.path.join('/tmp', reponame)
+    tar_path += '.tar'
+    with open(tar_path, 'wb') as fp:
+        repo.archive(fp)
+    return send_file(tar_path, as_attachment=True)
+

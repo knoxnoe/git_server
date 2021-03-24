@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify, redirect
 from app.repositoryapp.api import *
-from app.utils import create_response, class2data
+from app.utils import create_response, class2data, login_required
 from app import User, Repository
 
 repository = Blueprint('repository', __name__)
@@ -35,4 +35,29 @@ def get_repo(nickname):
 def get_branch(nickname, reponame):
     response = get_branch_from_directory(nickname, reponame) 
     return response 
+
+@repository.route('/fork')
+@login_required
+def fork():
+    pass
+
+@repository.route('/upload', methods=["GET", "POST"])
+def upload():
+    nickname = request.form.get('nickname')
+    reponame = request.form.get('reponame')
+    commit_msg = request.form.get('commit')
+    bin_file = request.files['file']
+    filepath = request.form.get('filepath')
+    filename = request.form.get('filename')
+    print("nickname", nickname ,"reponame", reponame, "commit_msg", commit_msg, "bin_file", bin_file)
+    res = upload_file(nickname, reponame, filepath, filename, bin_file, commit_msg)
+    return res
+
+@repository.route('/download', methods=["POST", "GET"])
+def download():
+    nickname = request.form.get('nickname')
+    reponame = request.form.get('reponame')
+    print("nickname", nickname, "reponame", reponame)
+    download_response = download_repo(nickname, reponame)
+    return download_response 
 
