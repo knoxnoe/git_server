@@ -36,11 +36,9 @@ def get_branch(nickname, reponame):
     response = get_branch_from_directory(nickname, reponame) 
     return response 
 
-@repository.route('/fork')
-@login_required
+@repository.route('/fork', methods=["POST"])
 def fork():
     pass
-
 @repository.route('/upload', methods=["GET", "POST"])
 def upload():
     nickname = request.form.get('nickname')

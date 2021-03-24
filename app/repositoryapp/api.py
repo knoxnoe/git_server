@@ -94,3 +94,14 @@ def download_repo(nickname, reponame):
         repo.archive(fp)
     return send_file(tar_path, as_attachment=True)
 
+def fork_gitrepo(forker, owner ,reponame):
+    forker_path = os.path.join(GIT_ROOT, forker, reponame)
+    owner_path = os.path.join(GIT_ROOT, owner, reponame)
+    shutil.copytree(owner_path, forker_path)
+    return create_response(0, "success")
+
+def fork_gitrepo1(forker, owner, reponame):
+    forker_path = os.path.join(GIT_ROOT, forker, reponame)
+    owner_path = os.path.join(GIT_ROOT, owner, reponame)
+    owner_repo = Repo(owner_path)
+    

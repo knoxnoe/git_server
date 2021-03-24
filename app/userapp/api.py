@@ -42,3 +42,4 @@ def User_reg(nickname, password_hash):
 def user_login():
     token = generate_auth_token(g.user_id)
     return create_response(0, "登陆成功", token=token.decode('ascii'))
+
