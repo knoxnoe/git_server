@@ -8,10 +8,11 @@ repository = Blueprint('repository', __name__)
 
 # 创建仓库接口 param:  reponame, desc nikename由token传入
 @repository.route('/create', methods=['POST'])
+@login_required
 def create():
     reponame = request.form.get('reponame')
     desc = request.form.get('desc')
-    nickname = request.form.get('nickname')
+    nickname = g.user_name
     result = create_repo(nickname, reponame, desc)
 
     return result

@@ -50,9 +50,8 @@ def clone_bare(bare_path, cloned_path):
         repo.clone(cloned_path)
 
 def get_file_from_directory(nickname, reponame, path_from_url, branch):
-    bare_path = os.path.join(GIT_ROOT, nickname, reponame)
-    cloned_path = os.path.join(bare_path, reponame)
-    clone_bare(bare_path, cloned_path) 
+    print("nickname", nickname, "reponame", reponame)
+    cloned_path = update_cloned_repo(nickname, reponame)
     file_path = os.path.join(cloned_path, path_from_url)
     
     cloned_repo = Repo(cloned_path)
@@ -100,7 +99,7 @@ def download_repo(nickname, reponame):
 
 def fork_gitrepo(forker, owner ,reponame):
     forker_path = os.path.join(GIT_ROOT, forker, reponame)
-    owner_path = os.path.join(GIT_ROOT, owner)
+    owner_path = os.path.join(GIT_ROOT, owner, reponame)
     print("forker_path", forker_path, "owner_path", owner_path)
     shutil.copytree(owner_path, forker_path)
 
@@ -142,4 +141,4 @@ def fork_repo(owner, anoname, anorepo):
         ret["status"] = -1	
         result = "当前用户仓库名重复，创建失败" 
     ret["msg"] = result    
-    return jsonify(aet)
+    return jsonify(ret)
