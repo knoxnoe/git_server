@@ -46,6 +46,8 @@ class User(db.Model):
     def get_nickname(cls, nickname):
         user = User.query.filter(User.nickname == nickname)
         return user
-        
+       
+    def __repr__(self):
+        return "id={}\tnickname={}\t\tcreatetime={}".format(self.id, self.nickname, self.create_time)
 
 

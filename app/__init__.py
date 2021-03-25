@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_cors import *  
 from flask_script import Manager
 from flask_migrate import Migrate, MigrateCommand
 from app.config import config
@@ -7,7 +8,7 @@ from app.userapp.models import User
 from app.repositoryapp.models import Repository
 from app.extensions import db, migrate
 from app.views import DEFAULT_BLUEPRINT
-from management.commands import UserFactory, UserList, RepositoryFactory, RepositoryList
+from management.commands import *
 
 
 def create_app(config_name):
@@ -30,6 +31,8 @@ def create_manager(app):
     manager.add_command('list_user', UserList())
     manager.add_command('make_repo', RepositoryFactory())
     manager.add_command('list_repo', RepositoryList())
+    manager.add_command('find_repo', RepositoryFinder())
+    manager.add_command('fork_repo', RepositoryFork())
 
     return manager
 

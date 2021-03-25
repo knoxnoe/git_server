@@ -1,5 +1,6 @@
 from flask_script import Command, Manager, Option
 from app import User, Repository
+from app.repositoryapp.api import fork_gitrepo
 
 class UserFactory(Command):
     "插入一个用户至数据库"
@@ -32,4 +33,22 @@ class RepositoryList(Command):
     def run(self):
         for repo in Repository.all_repo():
             print(repo)
+
+class RepositoryFinder(Command):
+    "给定用户的nickname 查询他所有创建的仓库"
+    option_list = (Option('--owner', '-o', dest='owner'),)
+
+    def run(self, owner):
+        user = User.query.filter_by(nickname=owner).first()
+        for repo in user.repositories:
+            print(repo)
+class RepositoryFork(Command):
+    option_list = (
+        Option('--reponame', '-r', dest='reponame'),
+        Option('--owner', '-o', dest='owner'),
+        Option('--forker', '-f', dest='forker')
+    )
+    
+    def run(self, reponame, owner, forker):
+        fork_gitrepo(forker, owner ,reponame) 
 
